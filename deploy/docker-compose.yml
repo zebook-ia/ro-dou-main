@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  app:
+    build: ./src
+    container_name: minha-aplicacao
+    env_file: .env
+    networks:
+      - ${NETWORK}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`${APP_DOMAIN}`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=letsencrypt"
+
+networks:
+  ${NETWORK}:
+    external: true
